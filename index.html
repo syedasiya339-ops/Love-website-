@@ -46,6 +46,15 @@ font-size:20px;
 padding:12px;
 border-radius:50%;
 }
+#voiceBtn{
+margin-top:15px;
+padding:12px 20px;
+background:#ff4d6d;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
 </style>
 </head>
 
@@ -85,6 +94,7 @@ border-radius:50%;
 <div id="finalMsg" style="display:none;">
 <h2>💖 You Accepted Everything 💖</h2>
 <p>You are mine forever 😌💍</p>
+<button id="voiceBtn" onclick="playVoice()">💌 Tap Here To Hear My Voice</button>
 </div>
 </div>
 
@@ -121,6 +131,7 @@ function playMusic(){
 document.getElementById("bgMusic").play().catch(()=>{});
 }
 
+// Unlock mobile music
 document.body.addEventListener("click", function(){
 document.getElementById("bgMusic").play().catch(()=>{});
 },{ once:true });
@@ -179,7 +190,6 @@ acceptedCount++;
 
 if(acceptedCount === questionsList.length){
 document.getElementById("finalMsg").style.display="block";
-playVoice();
 }
 };
 
@@ -191,9 +201,9 @@ container.appendChild(div);
 });
 }
 
-/* GUARANTEED VOICE FIX */
+// STABLE VOICE NOTE FUNCTION
 function playVoice(){
-window.open("https://voca.ro/1oTofidYRHDJ","_blank");
+window.location.href = "https://voca.ro/1oTofidYRHDJ";
 }
 
 </script>
