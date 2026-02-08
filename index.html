@@ -50,17 +50,6 @@ button{
   z-index:1000;
 }
 
-#voiceBtn{
-  margin-top:15px;
-  padding:12px 20px;
-  background:#ff4d6d;
-  color:white;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-  z-index:1000;
-}
-
 .heart{
   position: absolute;
   width: 20px;
@@ -94,20 +83,6 @@ button{
 @keyframes fall{
   0% {top: -50px; opacity:1;}
   100% {top: 100vh; opacity:0;}
-}
-
-.confetti{
-  position:absolute;
-  width:10px;
-  height:10px;
-  background:yellow;
-  z-index:999;
-  animation: confettiFall linear infinite;
-}
-
-@keyframes confettiFall{
-  0%{transform:translateY(0) rotate(0deg);}
-  100%{transform:translateY(100vh) rotate(360deg);}
 }
 </style>
 </head>
@@ -148,10 +123,7 @@ button{
 <div id="finalMsg" style="display:none;">
 <h2>💖 You Accepted Everything 💖</h2>
 <p>You are mine forever 😌💍</p>
-
-<!-- Voice note button -->
-<button id="voiceBtn" onclick="playVoice()">💌 Tap Here To Hear My Voice</button>
-
+<p style="font-size:24px; margin-top:15px;">I LOVE YOU 💖</p>
 </div>
 </div>
 
@@ -187,7 +159,6 @@ function playMusic(){
   document.getElementById("bgMusic").play().catch(()=>{});
 }
 
-// Unlock mobile music
 document.body.addEventListener("click", function(){
   document.getElementById("bgMusic").play().catch(()=>{});
 },{ once:true });
@@ -246,7 +217,7 @@ function showQuestions(){
 
       if(acceptedCount === questionsList.length){
         document.getElementById("finalMsg").style.display="block";
-        startHeartsConfetti();
+        startHearts();
       }
     };
 
@@ -258,41 +229,17 @@ function showQuestions(){
   });
 }
 
-// Play voice note from your uploaded MP3
-function playVoice(){
-  let voice = new Audio("voice.mp3"); // <-- your uploaded voice MP3 in same folder
-  voice.play().catch(()=>{
-    alert("Unable to play audio. Make sure 'voice.mp3' is in the same folder as this HTML file.");
-  });
-}
-
-// Falling hearts & confetti
-function startHeartsConfetti(){
-  // hearts
+// Falling hearts
+function startHearts(){
   for(let i=0;i<30;i++){
     let heart = document.createElement("div");
     heart.className="heart";
     heart.style.left = Math.random()*window.innerWidth + "px";
     heart.style.animationDuration = 3 + Math.random()*3 + "s";
-    heart.style.fontSize = 10 + Math.random()*20 + "px";
     document.body.appendChild(heart);
     setTimeout(()=>{heart.remove();},6000);
   }
-
-  // confetti
-  for(let i=0;i<50;i++){
-    let conf = document.createElement("div");
-    conf.className="confetti";
-    conf.style.left = Math.random()*window.innerWidth + "px";
-    conf.style.background = ["#f7d354","#ff5f7f","#5ff7a1","#a15fff"][Math.floor(Math.random()*4)];
-    conf.style.animationDuration = 2 + Math.random()*3 + "s";
-    conf.style.width = 5 + Math.random()*5 + "px";
-    conf.style.height = 5 + Math.random()*5 + "px";
-    document.body.appendChild(conf);
-    setTimeout(()=>{conf.remove();},6000);
-  }
 }
-
 </script>
 </body>
 </html>
