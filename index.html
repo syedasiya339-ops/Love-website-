@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Someone Special ❤️</title>
+
+<style>
+body{
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg,#ff758c,#ff7eb3);
+text-align:center;
+padding:20px;
+color:white;
+}
+
+.section{display:none;}
+
+button{
+padding:10px 20px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin:8px;
+}
+
+.accept{background:#4CAF50;color:white;}
+.reject{background:#f44336;color:white;}
+
+.question-box{
+background:white;
+color:black;
+padding:20px;
+margin:15px auto;
+border-radius:15px;
+max-width:400px;
+}
+
+#voiceBtn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#ff4d6d;
+color:white;
+font-size:24px;
+padding:15px;
+border-radius:50%;
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro" class="section" style="display:block;">
+<h1>✨ Someone Has Something Special For You ✨</h1>
+<button onclick="showPassword()">Start</button>
+</div>
+
+<div id="passwordSection" class="section">
+<h2>Enter Secret Password 🔐</h2>
+<input type="password" id="passInput">
+<br><br>
+<button onclick="checkPassword()">Enter</button>
+</div>
+
+<div id="quizSection" class="section">
+<h2>❤️ Small Love Quiz ❤️</h2>
+<p>Who is the cutest?</p>
+<button onclick="quizNext()">You</button>
+<button onclick="quizNext()">Obviously Me 😌</button>
+</div>
+
+<div id="countdownSection" class="section">
+<h2>Countdown To Forever ⏳</h2>
+<h1 id="timer"></h1>
+<button onclick="showQuestions()">Continue</button>
+</div>
+
+<div id="questionSection" class="section">
+<h1>Special Questions ❤️</h1>
+<div id="questions"></div>
+
+<div id="finalMsg" style="display:none;">
+<h2>💖 You Accepted Everything 💖</h2>
+<p>You are mine forever 😌💍</p>
+</div>
+</div>
+
+<!-- Background music -->
+<audio autoplay loop>
+<source src="https://drive.google.com/uc?export=download&id=1vlv835bHaV67wB4q0UYziaeuxrxjCGaz" type="audio/mpeg">
+</audio>
+
+<!-- Voice note -->
+<button id="voiceBtn" onclick="playVoice()">🎤</button>
+<audio id="voiceNote">
+<source src="https://drive.google.com/uc?export=download&id=1mXFK91RaXjugzkjjJ90yzDjPZoHVxLwu" type="audio/mpeg">
+</audio>
+
+<script>
+
+function showPassword(){
+intro.style.display="none";
+passwordSection.style.display="block";
+}
+
+function checkPassword(){
+if(passInput.value === "ADIL BABY"){
+passwordSection.style.display="none";
+quizSection.style.display="block";
+}else{
+alert("Wrong Password 😝");
+}
+}
+
+function quizNext(){
+quizSection.style.display="none";
+startCountdown();
+}
+
+function startCountdown(){
+countdownSection.style.display="block";
+
+let seconds = 10;
+
+let timer = setInterval(()=>{
+timerDisplay.innerText = seconds + " ❤️";
+seconds--;
+
+if(seconds < 0){
+clearInterval(timer);
+}
+},1000);
+}
+
+function showQuestions(){
+countdownSection.style.display="none";
+questionSection.style.display="block";
+}
+
+function playVoice(){
+document.getElementById("voiceNote").play();
+}
+
+const questions = [
+
+"MR. SHAIK AHMED SHAIKH will you be my valentine?",
+"DO YOU LOVE ME?",
+"NO 4 Biwiya, just mine?",
+"WILL YOU BE MINE FOREVER ♾️?",
+"WILL YOU MARRY ME?",
+
+"When did you first start liking me?",
+"Do I make your day better?",
+"Am I your favourite person?",
+
+"Would you choose me in every lifetime?",
+"Do you feel peaceful when you talk to me?",
+"Do you feel I understand you better than others?",
+
+"Are you ready to build a life with me?",
+"Will you support me in every situation?",
+"Will you stand with me even in tough times?",
+
+"Do you smile when you see my name on your phone? 😏",
+"Do you secretly miss me when I'm not around?",
+"Am I the reason for your random smiles?",
+
+"Are you ready to handle my mood swings? 😂",
+"Will you still love me when I steal your food?",
+"Will you tolerate my drama forever? 😌",
+
+"Do you believe we are meant to meet each other?",
+"Do you see me in your future dreams?",
+"Will you promise to never give up on us?"
+];
+
+let accepted = 0;
+
+questions.forEach((q,i)=>{
+
+let box=document.createElement("div");
+box.className="question-box";
+
+box.innerHTML=`
+<h3>${q}</h3>
+<button class="accept" onclick="acceptAns(${i})">Accept</button>
+<button class="reject">Reject</button>
+<div id="res${i}"></div>
+`;
+
+questionsDiv.appendChild(box);
+
+let rejectBtn = box.querySelector(".reject");
+
+rejectBtn.addEventListener("mouseover", ()=>{
+rejectBtn.style.position="absolute";
+rejectBtn.style.left=Math.random()*80+"%";
+rejectBtn.style.top=Math.random()*80+"%";
+});
+});
+
+function acceptAns(i){
+document.getElementById("res"+i).innerText="Accepted ❤️";
+accepted++;
+
+if(accepted === questions.length){
+finalMsg.style.display="block";
+document.getElementById("voiceNote").play();
+}
+}
+
+const timerDisplay = document.getElementById("timer");
+const questionsDiv = document.getElementById("questions");
+
+</script>
+</body>
+  </html>
