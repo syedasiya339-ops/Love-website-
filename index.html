@@ -7,54 +7,107 @@
 
 <style>
 body{
-font-family: Arial, sans-serif;
-background: linear-gradient(135deg,#ff758c,#ff7eb3);
-text-align:center;
-padding:20px;
-color:white;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#ff758c,#ff7eb3);
+  text-align:center;
+  padding:20px;
+  color:white;
+  overflow-x:hidden;
+  position:relative;
 }
 
 .section{display:none;}
 
 button{
-padding:10px 20px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-margin:8px;
+  padding:10px 20px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  margin:8px;
 }
 
 .accept{background:#4CAF50;color:white;}
 .reject{background:#f44336;color:white;}
 
 .question-box{
-background:white;
-color:black;
-padding:20px;
-margin:15px auto;
-border-radius:15px;
-max-width:400px;
+  background:white;
+  color:black;
+  padding:20px;
+  margin:15px auto;
+  border-radius:15px;
+  max-width:400px;
 }
 
 #musicBtn{
-position:fixed;
-top:20px;
-right:20px;
-background:#ff4d6d;
-color:white;
-font-size:20px;
-padding:12px;
-border-radius:50%;
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:#ff4d6d;
+  color:white;
+  font-size:20px;
+  padding:12px;
+  border-radius:50%;
+  z-index:1000;
 }
 
 #voiceBtn{
-margin-top:15px;
-padding:12px 20px;
-background:#ff4d6d;
-color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
+  margin-top:15px;
+  padding:12px 20px;
+  background:#ff4d6d;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  z-index:1000;
+}
+
+.heart{
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  transform: rotate(45deg);
+  animation: fall linear infinite;
+  z-index:999;
+}
+
+.heart::before,
+.heart::after{
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: red;
+  border-radius: 50%;
+}
+
+.heart::before{
+  top:-10px;
+  left:0;
+}
+
+.heart::after{
+  left:10px;
+  top:0;
+}
+
+@keyframes fall{
+  0% {top: -50px; opacity:1;}
+  100% {top: 100vh; opacity:0;}
+}
+
+.confetti{
+  position:absolute;
+  width:10px;
+  height:10px;
+  background:yellow;
+  z-index:999;
+  animation: confettiFall linear infinite;
+}
+
+@keyframes confettiFall{
+  0%{transform:translateY(0) rotate(0deg);}
+  100%{transform:translateY(100vh) rotate(360deg);}
 }
 </style>
 </head>
@@ -107,7 +160,6 @@ cursor:pointer;
 </audio>
 
 <script>
-
 let questionsList = [
 "MR. SHAIK AHMED SHAIKH will you be my valentine?",
 "DO YOU LOVE ME?",
@@ -132,86 +184,113 @@ let questionsList = [
 let acceptedCount = 0;
 
 function playMusic(){
-document.getElementById("bgMusic").play().catch(()=>{});
+  document.getElementById("bgMusic").play().catch(()=>{});
 }
 
 // Unlock mobile music
 document.body.addEventListener("click", function(){
-document.getElementById("bgMusic").play().catch(()=>{});
+  document.getElementById("bgMusic").play().catch(()=>{});
 },{ once:true });
 
 function showPassword(){
-intro.style.display="none";
-passwordSection.style.display="block";
+  intro.style.display="none";
+  passwordSection.style.display="block";
 }
 
 function checkPassword(){
-if(passInput.value === "ADIL BABY"){
-passwordSection.style.display="none";
-quizSection.style.display="block";
-}else{
-alert("Wrong Password 😝");
-}
+  if(passInput.value === "ADIL BABY"){
+    passwordSection.style.display="none";
+    quizSection.style.display="block";
+  } else {
+    alert("Wrong Password 😝");
+  }
 }
 
 function quizNext(){
-quizSection.style.display="none";
-startCountdown();
+  quizSection.style.display="none";
+  startCountdown();
 }
 
 function startCountdown(){
-countdownSection.style.display="block";
-let time = 5;
-document.getElementById("timer").innerText = time;
-let timer = setInterval(()=>{
-time--;
-document.getElementById("timer").innerText = time;
-if(time < 0){
-clearInterval(timer);
-}
-},1000);
+  countdownSection.style.display="block";
+  let time = 5;
+  document.getElementById("timer").innerText = time;
+  let timer = setInterval(()=>{
+    time--;
+    document.getElementById("timer").innerText = time;
+    if(time < 0){
+      clearInterval(timer);
+    }
+  },1000);
 }
 
 function showQuestions(){
-countdownSection.style.display="none";
-questionSection.style.display="block";
+  countdownSection.style.display="none";
+  questionSection.style.display="block";
 
-let container = document.getElementById("questions");
-container.innerHTML="";
+  let container = document.getElementById("questions");
+  container.innerHTML="";
 
-questionsList.forEach(q=>{
-let div = document.createElement("div");
-div.className="question-box";
-div.innerHTML = `
-<p>${q}</p>
-<button class="accept">Accept</button>
-<button class="reject">Reject</button>
-`;
+  questionsList.forEach(q=>{
+    let div = document.createElement("div");
+    div.className="question-box";
+    div.innerHTML = `
+      <p>${q}</p>
+      <button class="accept">Accept</button>
+      <button class="reject">Reject</button>
+    `;
 
-div.querySelector(".accept").onclick = () => {
-div.style.display="none";
-acceptedCount++;
+    div.querySelector(".accept").onclick = () => {
+      div.style.display="none";
+      acceptedCount++;
 
-if(acceptedCount === questionsList.length){
-document.getElementById("finalMsg").style.display="block";
+      if(acceptedCount === questionsList.length){
+        document.getElementById("finalMsg").style.display="block";
+        startHeartsConfetti();
+      }
+    };
+
+    div.querySelector(".reject").onclick = () => {
+      alert("No rejection allowed 😌❤️");
+    };
+
+    container.appendChild(div);
+  });
 }
-};
 
-div.querySelector(".reject").onclick = () => {
-alert("No rejection allowed 😌❤️");
-};
-
-container.appendChild(div);
-});
-}
-
-// Play voice note
+// Play voice note from your uploaded MP3
 function playVoice(){
-let voice = new Audio("https://drive.google.com/uc?export=download&id=14haGq6-CceqzwGUbzNp2eku4TZuqP-Pq");
-voice.play().catch(()=>{
-// fallback if browser blocks autoplay
-window.open("https://drive.google.com/uc?export=download&id=14haGq6-CceqzwGUbzNp2eku4TZuqP-Pq","_blank");
-});
+  let voice = new Audio("voice.mp3"); // <-- your uploaded voice MP3 in same folder
+  voice.play().catch(()=>{
+    alert("Unable to play audio. Make sure 'voice.mp3' is in the same folder as this HTML file.");
+  });
+}
+
+// Falling hearts & confetti
+function startHeartsConfetti(){
+  // hearts
+  for(let i=0;i<30;i++){
+    let heart = document.createElement("div");
+    heart.className="heart";
+    heart.style.left = Math.random()*window.innerWidth + "px";
+    heart.style.animationDuration = 3 + Math.random()*3 + "s";
+    heart.style.fontSize = 10 + Math.random()*20 + "px";
+    document.body.appendChild(heart);
+    setTimeout(()=>{heart.remove();},6000);
+  }
+
+  // confetti
+  for(let i=0;i<50;i++){
+    let conf = document.createElement("div");
+    conf.className="confetti";
+    conf.style.left = Math.random()*window.innerWidth + "px";
+    conf.style.background = ["#f7d354","#ff5f7f","#5ff7a1","#a15fff"][Math.floor(Math.random()*4)];
+    conf.style.animationDuration = 2 + Math.random()*3 + "s";
+    conf.style.width = 5 + Math.random()*5 + "px";
+    conf.style.height = 5 + Math.random()*5 + "px";
+    document.body.appendChild(conf);
+    setTimeout(()=>{conf.remove();},6000);
+  }
 }
 
 </script>
