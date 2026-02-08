@@ -46,6 +46,7 @@ font-size:20px;
 padding:12px;
 border-radius:50%;
 }
+
 #voiceBtn{
 margin-top:15px;
 padding:12px 20px;
@@ -94,12 +95,19 @@ cursor:pointer;
 <div id="finalMsg" style="display:none;">
 <h2>💖 You Accepted Everything 💖</h2>
 <p>You are mine forever 😌💍</p>
+
 <button id="voiceBtn" onclick="playVoice()">💌 Tap Here To Hear My Voice</button>
+
 </div>
 </div>
 
 <audio id="bgMusic" loop>
 <source src="https://files.catbox.moe/wg6ert.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Your voice note direct link -->
+<audio id="voiceNote">
+<source src="https://drive.google.com/uc?export=download&id=14haGq6-CceqzwGUbzNp2eku4TZuqP-Pq" type="audio/mpeg">
 </audio>
 
 <script>
@@ -201,9 +209,12 @@ container.appendChild(div);
 });
 }
 
-// STABLE VOICE NOTE FUNCTION
 function playVoice(){
-window.location.href = "https://voca.ro/1oTofidYRHDJ";
+let voice = document.getElementById("voiceNote");
+voice.play().catch(error=>{
+// if browser blocks autoplay, open fallback
+window.open("https://drive.google.com/uc?export=download&id=14haGq6-CceqzwGUbzNp2eku4TZuqP-Pq","_blank");
+});
 }
 
 </script>
