@@ -103,9 +103,8 @@ border-radius:50%;
 <source src="https://files.catbox.moe/wg6ert.mp3" type="audio/mpeg">
 </audio>
 
-<button id="voiceBtn" onclick="playVoice()">🎤</button>
 <audio id="voiceNote">
-<source src="https://drive.google.com/uc?export=download&id=1mXFK91RaXjugzkjjJ90yzDjPZoHVxLwu" type="audio/mpeg">
+<source src="https://media.vocaroo.com/mp3/1oTofidYRHDJ" type="audio/mpeg">
 </audio>
 
 <script>
@@ -117,20 +116,29 @@ let questionsList = [
 "WILL YOU BE MINE FOREVER ♾️?",
 "WILL YOU MARRY ME?",
 "Are you ready to build a life with me?",
-"Will you support me in every situation?"
+"Will you support me in every situation?",
+"Will you hold my hand in every up and down?",
+"Will you promise to never leave me alone?",
+"Will you make memories with me forever?",
+"Will you be my partner in crime?",
+"Will you laugh with me in my happy moments?",
+"Will you stay beside me in my difficult days?",
+"Will you love me even when I annoy you? 😌",
+"Will you grow old with me?",
+"Will you always choose me?",
+"Will you protect our relationship always?",
+"Will you be my peace and my chaos both?"
 ];
 
 let acceptedCount = 0;
 
 function playMusic(){
-let music = document.getElementById("bgMusic");
-music.play().catch(()=>{});
+document.getElementById("bgMusic").play().catch(()=>{});
 }
 
-/* 🔥 MUSIC UNLOCK FIX */
+/* Mobile music unlock */
 document.body.addEventListener("click", function(){
-let music = document.getElementById("bgMusic");
-music.play().catch(()=>{});
+document.getElementById("bgMusic").play().catch(()=>{});
 },{ once:true });
 
 function showPassword(){
@@ -155,9 +163,10 @@ startCountdown();
 function startCountdown(){
 countdownSection.style.display="block";
 let time = 5;
-let timer = setInterval(()=>{
 document.getElementById("timer").innerText = time;
+let timer = setInterval(()=>{
 time--;
+document.getElementById("timer").innerText = time;
 if(time < 0){
 clearInterval(timer);
 }
@@ -174,7 +183,6 @@ container.innerHTML="";
 questionsList.forEach(q=>{
 let div = document.createElement("div");
 div.className="question-box";
-
 div.innerHTML = `
 <p>${q}</p>
 <button class="accept">Accept</button>
@@ -200,10 +208,9 @@ container.appendChild(div);
 }
 
 function playVoice(){
-document.getElementById("voiceNote").play();
+document.getElementById("voiceNote").play().catch(()=>{});
 }
 
 </script>
-
 </body>
 </html>
