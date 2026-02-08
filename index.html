@@ -96,6 +96,7 @@ cursor:pointer;
 <h2>💖 You Accepted Everything 💖</h2>
 <p>You are mine forever 😌💍</p>
 
+<!-- Voice note button -->
 <button id="voiceBtn" onclick="playVoice()">💌 Tap Here To Hear My Voice</button>
 
 </div>
@@ -103,11 +104,6 @@ cursor:pointer;
 
 <audio id="bgMusic" loop>
 <source src="https://files.catbox.moe/wg6ert.mp3" type="audio/mpeg">
-</audio>
-
-<!-- Your voice note direct link -->
-<audio id="voiceNote">
-<source src="https://drive.google.com/uc?export=download&id=14haGq6-CceqzwGUbzNp2eku4TZuqP-Pq" type="audio/mpeg">
 </audio>
 
 <script>
@@ -209,10 +205,11 @@ container.appendChild(div);
 });
 }
 
+// Play voice note
 function playVoice(){
-let voice = document.getElementById("voiceNote");
-voice.play().catch(error=>{
-// if browser blocks autoplay, open fallback
+let voice = new Audio("https://drive.google.com/uc?export=download&id=14haGq6-CceqzwGUbzNp2eku4TZuqP-Pq");
+voice.play().catch(()=>{
+// fallback if browser blocks autoplay
 window.open("https://drive.google.com/uc?export=download&id=14haGq6-CceqzwGUbzNp2eku4TZuqP-Pq","_blank");
 });
 }
