@@ -7,55 +7,55 @@
 
 <style>
 body{
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#ff758c,#ff7eb3);
-  text-align:center;
-  padding:20px;
-  color:white;
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg,#ff758c,#ff7eb3);
+text-align:center;
+padding:20px;
+color:white;
 }
 
 .section{display:none;}
 
 button{
-  padding:10px 20px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  margin:8px;
+padding:10px 20px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin:8px;
 }
 
 .accept{background:#4CAF50;color:white;}
 .reject{background:#f44336;color:white;}
 
 .question-box{
-  background:white;
-  color:black;
-  padding:20px;
-  margin:15px auto;
-  border-radius:15px;
-  max-width:400px;
+background:white;
+color:black;
+padding:20px;
+margin:15px auto;
+border-radius:15px;
+max-width:400px;
 }
 
 #musicBtn{
-  position:fixed;
-  top:20px;
-  right:20px;
-  background:#ff4d6d;
-  color:white;
-  font-size:20px;
-  padding:12px;
-  border-radius:50%;
+position:fixed;
+top:20px;
+right:20px;
+background:#ff4d6d;
+color:white;
+font-size:20px;
+padding:12px;
+border-radius:50%;
 }
 
 #voiceBtn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#ff4d6d;
-  color:white;
-  font-size:24px;
-  padding:15px;
-  border-radius:50%;
+position:fixed;
+bottom:20px;
+right:20px;
+background:#ff4d6d;
+color:white;
+font-size:24px;
+padding:15px;
+border-radius:50%;
 }
 </style>
 </head>
@@ -65,137 +65,142 @@ button{
 <button id="musicBtn" onclick="playMusic()">🎵</button>
 
 <div id="intro" class="section" style="display:block;">
-  <h1>✨ Someone Has Something Special For You ✨</h1>
-  <button onclick="showPassword()">Start</button>
+<h1>✨ Someone Has Something Special For You ✨</h1>
+<button onclick="showPassword()">Start</button>
 </div>
 
 <div id="passwordSection" class="section">
-  <h2>Enter Secret Password 🔐</h2>
-  <input type="password" id="passInput">
-  <br><br>
-  <button onclick="checkPassword()">Enter</button>
+<h2>Enter Secret Password 🔐</h2>
+<input type="password" id="passInput">
+<br><br>
+<button onclick="checkPassword()">Enter</button>
 </div>
 
 <div id="quizSection" class="section">
-  <h2>❤️ Small Love Quiz ❤️</h2>
-  <p>Who is the cutest?</p>
-  <button onclick="quizNext()">You</button>
-  <button onclick="quizNext()">Obviously Me 😌</button>
+<h2>❤️ Small Love Quiz ❤️</h2>
+<p>Who is the cutest?</p>
+<button onclick="quizNext()">You</button>
+<button onclick="quizNext()">Obviously Me 😌</button>
 </div>
 
 <div id="countdownSection" class="section">
-  <h2>Countdown To Forever ⏳</h2>
-  <h1 id="timer"></h1>
-  <button onclick="showQuestions()">Continue</button>
+<h2>Countdown To Forever ⏳</h2>
+<h1 id="timer"></h1>
+<button onclick="showQuestions()">Continue</button>
 </div>
 
 <div id="questionSection" class="section">
-  <h1>Special Questions ❤️</h1>
-  <div id="questions"></div>
+<h1>Special Questions ❤️</h1>
+<div id="questions"></div>
 
-  <div id="finalMsg" style="display:none;">
-    <h2>💖 You Accepted Everything 💖</h2>
-    <p>You are mine forever 😌💍</p>
-  </div>
+<div id="finalMsg" style="display:none;">
+<h2>💖 You Accepted Everything 💖</h2>
+<p>You are mine forever 😌💍</p>
+</div>
 </div>
 
-<!-- UPDATED MUSIC LINK -->
 <audio id="bgMusic" loop>
-  <source src="https://files.catbox.moe/wg6ert.mp3" type="audio/mpeg">
+<source src="https://files.catbox.moe/wg6ert.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Voice Note -->
 <button id="voiceBtn" onclick="playVoice()">🎤</button>
 <audio id="voiceNote">
-  <source src="https://drive.google.com/uc?export=download&id=1mXFK91RaXjugzkjjJ90yzDjPZoHVxLwu" type="audio/mpeg">
+<source src="https://drive.google.com/uc?export=download&id=1mXFK91RaXjugzkjjJ90yzDjPZoHVxLwu" type="audio/mpeg">
 </audio>
 
 <script>
 
 let questionsList = [
-  "MR. SHAIK AHMED SHAIKH will you be my valentine?",
-  "DO YOU LOVE ME?",
-  "NO 4 BIWIYA, just mine?",
-  "WILL YOU BE MINE FOREVER ♾️?",
-  "WILL YOU MARRY ME?",
-  "Are you ready to build a life with me?",
-  "Will you support me in every situation?"
+"MR. SHAIK AHMED SHAIKH will you be my valentine?",
+"DO YOU LOVE ME?",
+"NO 4 BIWIYA, just mine?",
+"WILL YOU BE MINE FOREVER ♾️?",
+"WILL YOU MARRY ME?",
+"Are you ready to build a life with me?",
+"Will you support me in every situation?"
 ];
 
 let acceptedCount = 0;
 
 function playMusic(){
-  document.getElementById("bgMusic").play();
+let music = document.getElementById("bgMusic");
+music.play().catch(()=>{});
 }
 
+/* 🔥 MUSIC UNLOCK FIX */
+document.body.addEventListener("click", function(){
+let music = document.getElementById("bgMusic");
+music.play().catch(()=>{});
+},{ once:true });
+
 function showPassword(){
-  intro.style.display="none";
-  passwordSection.style.display="block";
+intro.style.display="none";
+passwordSection.style.display="block";
 }
 
 function checkPassword(){
-  if(passInput.value === "ADIL BABY"){
-    passwordSection.style.display="none";
-    quizSection.style.display="block";
-  } else {
-    alert("Wrong Password 😝");
-  }
+if(passInput.value === "ADIL BABY"){
+passwordSection.style.display="none";
+quizSection.style.display="block";
+}else{
+alert("Wrong Password 😝");
+}
 }
 
 function quizNext(){
-  quizSection.style.display="none";
-  startCountdown();
+quizSection.style.display="none";
+startCountdown();
 }
 
 function startCountdown(){
-  countdownSection.style.display="block";
-  let time = 5;
-  let timer = setInterval(()=>{
-    document.getElementById("timer").innerText = time;
-    time--;
-    if(time < 0){
-      clearInterval(timer);
-    }
-  },1000);
+countdownSection.style.display="block";
+let time = 5;
+let timer = setInterval(()=>{
+document.getElementById("timer").innerText = time;
+time--;
+if(time < 0){
+clearInterval(timer);
+}
+},1000);
 }
 
 function showQuestions(){
-  countdownSection.style.display="none";
-  questionSection.style.display="block";
+countdownSection.style.display="none";
+questionSection.style.display="block";
 
-  let container = document.getElementById("questions");
-  container.innerHTML="";
+let container = document.getElementById("questions");
+container.innerHTML="";
 
-  questionsList.forEach(q=>{
-    let div = document.createElement("div");
-    div.className="question-box";
+questionsList.forEach(q=>{
+let div = document.createElement("div");
+div.className="question-box";
 
-    div.innerHTML = `
-      <p>${q}</p>
-      <button class="accept">Accept</button>
-      <button class="reject">Reject</button>
-    `;
+div.innerHTML = `
+<p>${q}</p>
+<button class="accept">Accept</button>
+<button class="reject">Reject</button>
+`;
 
-    div.querySelector(".accept").onclick = () => {
-      div.style.display="none";
-      acceptedCount++;
+div.querySelector(".accept").onclick = () => {
+div.style.display="none";
+acceptedCount++;
 
-      if(acceptedCount === questionsList.length){
-        document.getElementById("finalMsg").style.display="block";
-        playVoice();
-      }
-    };
+if(acceptedCount === questionsList.length){
+document.getElementById("finalMsg").style.display="block";
+playVoice();
+}
+};
 
-    div.querySelector(".reject").onclick = () => {
-      alert("No rejection allowed 😌❤️");
-    };
+div.querySelector(".reject").onclick = () => {
+alert("No rejection allowed 😌❤️");
+};
 
-    container.appendChild(div);
-  });
+container.appendChild(div);
+});
 }
 
 function playVoice(){
-  document.getElementById("voiceNote").play();
+document.getElementById("voiceNote").play();
 }
 
 </script>
