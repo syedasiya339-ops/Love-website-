@@ -46,17 +46,6 @@ font-size:20px;
 padding:12px;
 border-radius:50%;
 }
-
-#voiceBtn{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#ff4d6d;
-color:white;
-font-size:24px;
-padding:15px;
-border-radius:50%;
-}
 </style>
 </head>
 
@@ -103,10 +92,6 @@ border-radius:50%;
 <source src="https://files.catbox.moe/wg6ert.mp3" type="audio/mpeg">
 </audio>
 
-<audio id="voiceNote">
-<source src="https://media.vocaroo.com/mp3/1oTofidYRHDJ" type="audio/mpeg">
-</audio>
-
 <script>
 
 let questionsList = [
@@ -136,7 +121,6 @@ function playMusic(){
 document.getElementById("bgMusic").play().catch(()=>{});
 }
 
-/* Mobile music unlock */
 document.body.addEventListener("click", function(){
 document.getElementById("bgMusic").play().catch(()=>{});
 },{ once:true });
@@ -207,8 +191,9 @@ container.appendChild(div);
 });
 }
 
+/* GUARANTEED VOICE FIX */
 function playVoice(){
-document.getElementById("voiceNote").play().catch(()=>{});
+window.open("https://voca.ro/1oTofidYRHDJ","_blank");
 }
 
 </script>
