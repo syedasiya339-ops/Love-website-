@@ -36,6 +36,17 @@ border-radius:15px;
 max-width:400px;
 }
 
+#musicBtn{
+position:fixed;
+top:20px;
+right:20px;
+background:#ff4d6d;
+color:white;
+font-size:20px;
+padding:12px;
+border-radius:50%;
+}
+
 #voiceBtn{
 position:fixed;
 bottom:20px;
@@ -50,6 +61,8 @@ border-radius:50%;
 </head>
 
 <body>
+
+<button id="musicBtn" onclick="playMusic()">🎵</button>
 
 <div id="intro" class="section" style="display:block;">
 <h1>✨ Someone Has Something Special For You ✨</h1>
@@ -86,12 +99,10 @@ border-radius:50%;
 </div>
 </div>
 
-<!-- Background Music -->
 <audio id="bgMusic" loop>
 <source src="https://drive.google.com/uc?export=download&id=1vlv835bHaV67wB4q0UYziaeuxrxjCGaz" type="audio/mpeg">
 </audio>
 
-<!-- Voice Note -->
 <button id="voiceBtn" onclick="playVoice()">🎤</button>
 <audio id="voiceNote">
 <source src="https://drive.google.com/uc?export=download&id=1mXFK91RaXjugzkjjJ90yzDjPZoHVxLwu" type="audio/mpeg">
@@ -109,8 +120,13 @@ let questionsList = [
 "Will you support me in every situation?"
 ];
 
-function showPassword(){
+let acceptedCount = 0;
+
+function playMusic(){
 document.getElementById("bgMusic").play();
+}
+
+function showPassword(){
 intro.style.display="none";
 passwordSection.style.display="block";
 }
@@ -130,4 +146,57 @@ startCountdown();
 }
 
 function startCountdown(){
-countdownSection
+countdownSection.style.display="block";
+let time = 5;
+let timer = setInterval(()=>{
+document.getElementById("timer").innerText = time;
+time--;
+if(time < 0){
+clearInterval(timer);
+}
+},1000);
+}
+
+function showQuestions(){
+countdownSection.style.display="none";
+questionSection.style.display="block";
+
+let container = document.getElementById("questions");
+container.innerHTML="";
+
+questionsList.forEach(q=>{
+let div = document.createElement("div");
+div.className="question-box";
+
+div.innerHTML = `
+<p>${q}</p>
+<button class="accept">Accept</button>
+<button class="reject">Reject</button>
+`;
+
+div.querySelector(".accept").onclick = () => {
+div.style.display="none";
+acceptedCount++;
+
+if(acceptedCount === questionsList.length){
+document.getElementById("finalMsg").style.display="block";
+playVoice();
+}
+};
+
+div.querySelector(".reject").onclick = () => {
+alert("No rejection allowed 😌❤️");
+};
+
+container.appendChild(div);
+});
+}
+
+function playVoice(){
+document.getElementById("voiceNote").play();
+}
+
+</script>
+
+</body>
+</html>
