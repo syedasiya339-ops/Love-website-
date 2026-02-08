@@ -45,7 +45,6 @@ color:white;
 font-size:24px;
 padding:15px;
 border-radius:50%;
-box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
 </style>
 </head>
@@ -87,18 +86,26 @@ box-shadow:0 4px 10px rgba(0,0,0,0.2);
 </div>
 </div>
 
-<!-- Background music -->
 <audio autoplay loop>
 <source src="https://drive.google.com/uc?export=download&id=1vlv835bHaV67wB4q0UYziaeuxrxjCGaz" type="audio/mpeg">
 </audio>
 
-<!-- Voice note -->
 <button id="voiceBtn" onclick="playVoice()">🎤</button>
 <audio id="voiceNote">
 <source src="https://drive.google.com/uc?export=download&id=1mXFK91RaXjugzkjjJ90yzDjPZoHVxLwu" type="audio/mpeg">
 </audio>
 
 <script>
+
+let questionsList = [
+"MR. SHAIK AHMED SHAIKH will you be my valentine?",
+"DO YOU LOVE ME?",
+"NO 4 BIWIYA, just mine?",
+"WILL YOU BE MINE FOREVER ♾️?",
+"WILL YOU MARRY ME?",
+"Are you ready to build a life with me?",
+"Will you support me in every situation?"
+];
 
 function showPassword(){
 intro.style.display="none";
@@ -121,14 +128,11 @@ startCountdown();
 
 function startCountdown(){
 countdownSection.style.display="block";
-
-let seconds = 10;
-
+let time = 5;
 let timer = setInterval(()=>{
-timerDisplay.innerText = seconds + " ❤️";
-seconds--;
-
-if(seconds < 0){
+document.getElementById("timer").innerText = time;
+time--;
+if(time < 0){
 clearInterval(timer);
 }
 },1000);
@@ -137,82 +141,40 @@ clearInterval(timer);
 function showQuestions(){
 countdownSection.style.display="none";
 questionSection.style.display="block";
+
+let container = document.getElementById("questions");
+
+questionsList.forEach(q=>{
+let div = document.createElement("div");
+div.className="question-box";
+div.innerHTML = `
+<p>${q}</p>
+<button class="accept" onclick="acceptQuestion(this)">Accept</button>
+<button class="reject" onclick="rejectQuestion()">Reject</button>
+`;
+container.appendChild(div);
+});
+}
+
+function acceptQuestion(btn){
+btn.parentElement.style.display="none";
+
+if(document.querySelectorAll(".question-box").length ===
+document.querySelectorAll(".question-box[style='display: none;']").length){
+document.getElementById("finalMsg").style.display="block";
+playVoice();
+}
+}
+
+function rejectQuestion(){
+alert("No rejection allowed 😌❤️");
 }
 
 function playVoice(){
 document.getElementById("voiceNote").play();
 }
 
-const questions = [
-
-"MR. SHAIK AHMED SHAIKH will you be my valentine?",
-"DO YOU LOVE ME?",
-"NO 4 Biwiya, just mine?",
-"WILL YOU BE MINE FOREVER ♾️?",
-"WILL YOU MARRY ME?",
-
-"When did you first start liking me?",
-"Am I your favourite person🥺?",
-
-"Would you choose me in every lifetime?",
-"Do you feel peaceful when you talk to me?",
-"Do you feel I understand you better than others?",
-
-"Are you ready to build a life with me?",
-"Will you support me in every situation?",
-"Will you stand with me even in tough times?",
-
-"Do you smile when you see my name on your phone? 😏",
-"Do you secretly miss me when I'm not around?",
-"Am I the reason for your random smiles?",
-
-"Are you ready to handle my mood swings? 😂",
-"Will you still love me when I steal your food?",
-"Will you tolerate my drama forever? 😌",
-
-"Do you believe we are meant to meet each other?",
-"Do you see me in your future dreams?",
-"Will you promise to never give up on us?"
-];
-
-let accepted = 0;
-
-questions.forEach((q,i)=>{
-
-let box=document.createElement("div");
-box.className="question-box";
-
-box.innerHTML=`
-<h3>${q}</h3>
-<button class="accept" onclick="acceptAns(${i})">Accept</button>
-<button class="reject">Reject</button>
-<div id="res${i}"></div>
-`;
-
-questionsDiv.appendChild(box);
-
-let rejectBtn = box.querySelector(".reject");
-
-rejectBtn.addEventListener("mouseover", ()=>{
-rejectBtn.style.position="absolute";
-rejectBtn.style.left=Math.random()*80+"%";
-rejectBtn.style.top=Math.random()*80+"%";
-});
-});
-
-function acceptAns(i){
-document.getElementById("res"+i).innerText="Accepted ❤️";
-accepted++;
-
-if(accepted === questions.length){
-finalMsg.style.display="block";
-document.getElementById("voiceNote").play();
-}
-}
-
-const timerDisplay = document.getElementById("timer");
-const questionsDiv = document.getElementById("questions");
-
 </script>
+
 </body>
-  </html>
+</html>
